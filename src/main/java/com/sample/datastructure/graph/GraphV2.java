@@ -1,15 +1,15 @@
-package com.sample.datastructure;
+package com.sample.datastructure.graph;
 
 import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Graph {
+public class GraphV2 {
 
     private Set<Vertex> vertices;
 
-    public Graph() {
+    public GraphV2() {
         vertices = new HashSet<>();
     }
 
@@ -30,7 +30,6 @@ public class Graph {
         boolean addEdge(Edge edge){
             return edges.add(edge);
         }
-
     }
 
     public static class Edge{
@@ -43,11 +42,11 @@ public class Graph {
         }
     }
 
-    public void printEdges() {
+    public void printPath() {
         for (Vertex vertex : vertices) {
             System.out.print(vertex.label + " -> ");
             for (Edge neighbor : vertex.edges) {
-                System.out.print(neighbor.destination.label + " ");
+                System.out.print(neighbor.destination.label + "(" + neighbor.weight +") ");
             }
             System.out.println();
         }
@@ -55,7 +54,7 @@ public class Graph {
 
     public static void main(String[] args) {
 
-        Graph graph = new Graph();
+        GraphV2 graph = new GraphV2();
 
         //construct vertices
         Vertex v1 = new Vertex("1");
@@ -84,6 +83,6 @@ public class Graph {
         graph.addVertex(v4);
         graph.addVertex(v5);
 
-        graph.printEdges();
+        graph.printPath();
     }
 }
