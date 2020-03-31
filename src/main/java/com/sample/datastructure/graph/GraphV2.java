@@ -44,7 +44,6 @@ public class GraphV2 {
 
     public void printPath() {
         for (Vertex vertex : vertices) {
-
             for (Edge neighbor : vertex.edges) {
                 System.out.print(vertex.label + " -> ");
                 System.out.println(neighbor.destination.label + "(" + neighbor.weight +") ");

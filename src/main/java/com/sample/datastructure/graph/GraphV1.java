@@ -47,11 +47,10 @@ public class GraphV1 {
 
   public void printPath() {
     for (Vertex vertex : adjacencyVerticesMap.keySet()) {
-      System.out.print(vertex.getLabel() + " -> ");
       for (Vertex neighbor : adjacencyVerticesMap.get(vertex)) {
-        System.out.print(neighbor.getLabel() + " ");
+        System.out.print(vertex.getLabel() + " -> ");
+        System.out.println(neighbor.getLabel() + " ");
       }
-      System.out.println();
     }
   }
 
