@@ -44,11 +44,11 @@ public class GraphV2 {
 
     public void printPath() {
         for (Vertex vertex : vertices) {
-            System.out.print(vertex.label + " -> ");
+
             for (Edge neighbor : vertex.edges) {
-                System.out.print(neighbor.destination.label + "(" + neighbor.weight +") ");
+                System.out.print(vertex.label + " -> ");
+                System.out.println(neighbor.destination.label + "(" + neighbor.weight +") ");
             }
-            System.out.println();
         }
     }
 
