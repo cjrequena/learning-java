@@ -9,7 +9,7 @@ import static com.sample.math.ReversePolishNotation.calc;
 import static com.sample.math.ReversePolishNotation.calcSign;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /*
 In reverse Polish notation the operators follow their operands;

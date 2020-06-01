@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class StreamsTest {
 
   @Before
@@ -64,5 +62,11 @@ public class StreamsTest {
     System.out.println("Print the count of numbers");
     System.out.println("===================");
     streams.count(integers);
+
+
+    System.out.println("");
+    System.out.println("Print all numbers using parallelStream");
+    System.out.println("===================");
+    streams.printParallelStream(integers);
   }
 }

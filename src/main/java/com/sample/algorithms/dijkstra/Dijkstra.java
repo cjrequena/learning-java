@@ -12,7 +12,10 @@ package com.sample.algorithms.dijkstra;
  * Also most of the comments are from RosettaCode.
  */
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 public class Dijkstra {
 

@@ -30,6 +30,10 @@ public class Streams {
     System.out.println(collection.stream().count());
   }
 
+  public void printParallelStream(List<Integer> collection) {
+    collection.parallelStream().forEach(System.out::println);
+  }
+
   /**
    * Checks if a integer is a prime number
    * @param number

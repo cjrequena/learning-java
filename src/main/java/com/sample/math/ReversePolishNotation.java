@@ -2,7 +2,7 @@ package com.sample.math;
 
 import java.util.Arrays;
 import java.util.Stack;
-import java.util.function.*;
+import java.util.function.BiFunction;
 
 /**
  * <p>
