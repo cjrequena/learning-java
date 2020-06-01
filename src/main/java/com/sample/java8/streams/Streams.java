@@ -1,11 +1,9 @@
 package com.sample.java8.streams;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 public class Streams {
 
