@@ -2,11 +2,8 @@ package com.sample.math;
 
 import org.junit.Test;
 
-import java.util.Stack;
-import java.util.stream.IntStream;
-
-import static com.sample.math.ReversePolishNotation.calc;
-import static com.sample.math.ReversePolishNotation.calcSign;
+import static com.sample.math.ReversePolishNotation.applyReversePolishNotation;
+import static com.sample.math.ReversePolishNotation.applyInfixNotation;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -25,45 +22,43 @@ Taken from http://en.wikipedia.org/wiki/Reverse_Polish_notation.
 public class ReversePolishNotationTest {
 
   @Test
-  public void calcSignShouldReturnStackWithTwoElementsPoppedAndOneElementPushed() {
-    Stack<Double> numbers = new Stack<>();
-    IntStream.rangeClosed(1, 5).forEach(number -> numbers.add((double) number));
-    Stack<Double> actual = calcSign(numbers, (num1, num2) -> num2 / num1);
-    assertThat(actual.size(), is(equalTo(4)));
+  public void applyReversePolishNotationShouldBeAbleToCalculateSingleDigitNumbers() {
+    assertThat(applyReversePolishNotation("1 2 +"), is(equalTo(3.0)));
   }
 
   @Test
-  public void calcSignShouldUseOperationParameterToCalculatePushedValue() {
-    Stack<Double> numbers = new Stack<>();
-    numbers.push((double) 15);
-    numbers.push((double) 3);
-    Stack<Double> actual = calcSign(numbers, (num1, num2) -> num2 / num1);
-    assertThat(actual.pop(), is(5.0));
+  public void applyReversePolishNotationShouldBeAbleToCalculateMultiDigitNumbers() {
+    assertThat(applyReversePolishNotation("12 3 /"), is(equalTo(4.0)));
   }
 
   @Test
-  public void calcShouldBeAbleToCalculateSingleDigitNumbers() {
-    assertThat(calc("1 2 +"), is(equalTo(3.0)));
+  public void applyReversePolishNotationShouldBeAbleToHandleNegativeNumbers() {
+    assertThat(applyReversePolishNotation("-12 3 /"), is(equalTo(-4.0)));
   }
 
   @Test
-  public void calcShouldBeAbleToCalculateMultiDigitNumbers() {
-    assertThat(calc("12 3 /"), is(equalTo(4.0)));
+  public void applyReversePolishNotationShouldBeAbleToHandleDecimalNumbers() {
+    assertThat(applyReversePolishNotation("-12.9 3 /"), is(equalTo(-4.3)));
   }
 
   @Test
-  public void calcShouldBeAbleToHandleNegativeNumbers() {
-    assertThat(calc("-12 3 /"), is(equalTo(-4.0)));
+  public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations1() {
+    assertThat(applyReversePolishNotation("1 2 + 4 * 5 + 3 -"), is(equalTo(14.0)));
   }
 
   @Test
-  public void calShouldBeAbleToHandleDecimalNumbers() {
-    assertThat(calc("-12.9 3 /"), is(equalTo(-4.3)));
+  public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations2() {
+    assertThat(applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"), is(equalTo(27.0)));
+  }
+
+
+  @Test
+  public void applyInfixNotationTest1() {
+    assertThat(applyInfixNotation("6/2*(1+2)"), is(equalTo(9.0)));
   }
 
   @Test
-  public void calShouldBeAbleToHandleMoreComplexNotations() {
-    assertThat(calc("1 2 + 4 * 5 + 3 -"), is(equalTo(14.0)));
+  public void applyInfixNotationTest2() {
+    assertThat(applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"), is(equalTo(27.0)));
   }
-
 }
