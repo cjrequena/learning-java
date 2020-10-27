@@ -30,14 +30,10 @@ public class FunctionsTest {
 
   @Test
   public void applyOperationToOperandsTest() {
-    Stack<Double> stack = new Stack<>();
-    stack.push(Double.valueOf(3));
-    stack.push(Double.valueOf(3));
-    assertEquals(Functions.applyOperationToOperands(stack, Functions.add),  Double.valueOf(6));
-    stack.push(Double.valueOf(3));
-    stack.push(Double.valueOf(3));
-    assertEquals(Functions.applyOperationToOperands(stack, Functions.multiply),  Double.valueOf(9));
-
+    assertEquals(Functions.applyOperationToOperands(Double.valueOf(3),Double.valueOf(3), Functions.add),  Double.valueOf(6));
+    assertEquals(Functions.applyOperationToOperands(Double.valueOf(3), Double.valueOf(3),Functions.subtract),  Double.valueOf(0));
+    assertEquals(Functions.applyOperationToOperands(Double.valueOf(3), Double.valueOf(3),Functions.multiply),  Double.valueOf(9));
+    assertEquals(Functions.applyOperationToOperands(Double.valueOf(6),Double.valueOf(2), Functions.divide),  Double.valueOf(3));
   }
 
 }

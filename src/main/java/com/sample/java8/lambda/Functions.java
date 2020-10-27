@@ -1,6 +1,5 @@
 package com.sample.java8.lambda;
 
-import java.util.Stack;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -33,11 +32,23 @@ public class Functions {
 
   /**
    *
-   * @param operands
-   * @param operation
    */
-  protected static Double applyOperationToOperands(Stack<Double> operands, BiFunction<Double, Double, Double> operation) {
-    return operation.apply(operands.pop(), operands.pop());
+  public static BiFunction<Double, Double, Double> subtract = (operandA, operandB) -> operandA - operandB;
+
+  /**
+   *
+   */
+  public static BiFunction<Double, Double, Double> divide = (operandA, operandB) -> operandA / operandB;
+
+  /**
+   *
+   * @param operandA
+   * @param operandB
+   * @param operation
+   * @return
+   */
+  protected static Double applyOperationToOperands(Double operandA, Double operandB, BiFunction<Double, Double, Double> operation) {
+    return operation.apply(operandA, operandB);
   }
 
   /**
