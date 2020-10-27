@@ -43,13 +43,7 @@ public class ReversePolishNotation {
    */
   public static Double applyInfixNotation(String input) {
     // TODO validate the input format.
-    String regexp = "((?<=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)])|(?=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)]))";
-    String[] infixNotation = input.replaceAll("\\s+","").split(regexp);
-    String rpn = convertInfixNotationToReversePolishNotation(infixNotation).toString();
-    rpn = rpn.replaceAll("\\s+","");
-    rpn = rpn.replaceAll("[\\[\\],]", " ");
-    rpn = rpn.trim();
-    return applyReversePolishNotation(rpn);
+    return applyReversePolishNotation(convertInfixNotationToReversePolishNotation(input));
   }
 
   /**
@@ -96,7 +90,7 @@ public class ReversePolishNotation {
     operands.push(operation.apply(operands.pop(), operands.pop()));
   }
 
-  protected static Queue<String> convertInfixNotationToReversePolishNotation(String[] infixNotation) {
+  public static Queue<String> convertInfixNotationToReversePolishNotation(String[] infixNotation) {
 
     Map<String, Integer> precedence = new HashMap<>();
     precedence.put("/", 5);
@@ -143,6 +137,16 @@ public class ReversePolishNotation {
     }
 
     return queue;
+  }
+
+  public static String convertInfixNotationToReversePolishNotation(String input) {
+    String regexp = "((?<=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)])|(?=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)]))";
+    String[] infixNotation = input.replaceAll("\\s+", "").split(regexp);
+    String rpn = convertInfixNotationToReversePolishNotation(infixNotation).toString();
+    rpn = rpn.replaceAll("\\s+", "");
+    rpn = rpn.replaceAll("[\\[\\],]", " ");
+    rpn = rpn.trim();
+    return rpn;
   }
 
   protected static boolean isNumber(String input) {
