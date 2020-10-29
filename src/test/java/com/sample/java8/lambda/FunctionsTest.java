@@ -2,8 +2,6 @@ package com.sample.java8.lambda;
 
 import org.junit.Test;
 
-import java.util.Stack;
-
 import static org.junit.Assert.assertEquals;
 
 public class FunctionsTest {

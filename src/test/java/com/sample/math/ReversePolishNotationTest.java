@@ -2,8 +2,8 @@ package com.sample.math;
 
 import org.junit.Test;
 
-import static com.sample.math.ReversePolishNotation.applyReversePolishNotation;
 import static com.sample.math.ReversePolishNotation.applyInfixNotation;
+import static com.sample.math.ReversePolishNotation.applyReversePolishNotation;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
