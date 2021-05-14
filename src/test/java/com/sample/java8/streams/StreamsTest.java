@@ -19,6 +19,7 @@ public class StreamsTest {
 
   @Test
   public void filter() {
+
     Streams streams = new Streams();
     List<Integer> integers = new ArrayList<>();
     integers.add(0);

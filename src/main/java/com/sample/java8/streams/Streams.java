@@ -2,13 +2,13 @@ package com.sample.java8.streams;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.IntPredicate;
-import java.util.stream.IntStream;
+
+import static com.sample.algorithms.PrimeNumber.isPrimeNumber;
 
 public class Streams {
 
   public void filter(List<Integer> collection) {
-    collection.stream().filter(number -> isPrime(number)).forEach(System.out::println);
+    collection.stream().filter(number -> isPrimeNumber(number)).forEach(System.out::println);
   }
 
   public void sort(List<Integer> collection, boolean asc) {
@@ -33,19 +33,6 @@ public class Streams {
   public void printParallelStream(List<Integer> collection) {
     collection.parallelStream().forEach(System.out::println);
   }
-
-  /**
-   * Checks if a integer is a prime number
-   * @param number
-   * @return
-   */
-  private static boolean isPrime(int number) {
-    IntPredicate isDivisible = index -> number % index == 0;
-    return number > 1 && IntStream.range(2, number - 1).noneMatch(isDivisible);
-  }
-
-
-
 }
 
 

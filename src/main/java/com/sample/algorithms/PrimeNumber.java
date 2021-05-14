@@ -1,5 +1,8 @@
 package com.sample.algorithms;
 
+import java.util.function.IntPredicate;
+import java.util.stream.IntStream;
+
 /**
  * A prime number (or a prime) is a natural number greater than 1 that is not a product of two smaller natural numbers. A natural number
  * greater than 1 that is not prime is called a composite number.
@@ -23,7 +26,17 @@ public class PrimeNumber {
    * @param number
    * @return
    */
-  public static boolean isPrimeNumberWay1(int number) {
+  public static boolean isPrimeNumber(int number) {
+    IntPredicate isDivisible = index -> number % index == 0;
+    return number > 1 && IntStream.range(2, number - 1).noneMatch(isDivisible);
+  }
+
+  /**
+   * 
+   * @param number
+   * @return
+   */
+  public static boolean isPrimeNumberWay2(int number) {
     if (number < 2) {
       return false;
     }
@@ -42,13 +55,14 @@ public class PrimeNumber {
     return true;
   }
 
+
   /**
    *
    * @param limit
    */
   public static void printPrimeNumbers(int limit) {
     for (int i = 0; i <= limit; i++) {
-      if (isPrimeNumberWay1(i)) {
+      if (isPrimeNumber(i)) {
         System.out.println(i + " ");
       }
     }
