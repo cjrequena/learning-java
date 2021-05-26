@@ -1,12 +1,12 @@
 package com.sample.math;
 
-import org.junit.Test;
+
+
+import org.junit.jupiter.api.Test;
 
 import static com.sample.math.ReversePolishNotation.applyInfixNotation;
 import static com.sample.math.ReversePolishNotation.applyReversePolishNotation;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
 In reverse Polish notation the operators follow their operands;
@@ -23,42 +23,42 @@ public class ReversePolishNotationTest {
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToCalculateSingleDigitNumbers() {
-    assertThat(applyReversePolishNotation("1 2 +"), is(equalTo(3.0)));
+    assertEquals(applyReversePolishNotation("1 2 +"), 3.0);
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToCalculateMultiDigitNumbers() {
-    assertThat(applyReversePolishNotation("12 3 /"), is(equalTo(4.0)));
+    assertEquals(applyReversePolishNotation("12 3 /"), 4.0);
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleNegativeNumbers() {
-    assertThat(applyReversePolishNotation("-12 3 /"), is(equalTo(-4.0)));
+    assertEquals(applyReversePolishNotation("-12 3 /"), -4.0);
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleDecimalNumbers() {
-    assertThat(applyReversePolishNotation("-12.9 3 /"), is(equalTo(-4.3)));
+    assertEquals(applyReversePolishNotation("-12.9 3 /"), -4.3);
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations1() {
-    assertThat(applyReversePolishNotation("1 2 + 4 * 5 + 3 -"), is(equalTo(14.0)));
+    assertEquals(applyReversePolishNotation("1 2 + 4 * 5 + 3 -"), 14.0);
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations2() {
-    assertThat(applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"), is(equalTo(27.0)));
+    assertEquals(applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"), 27.0);
   }
 
 
   @Test
   public void applyInfixNotationTest1() {
-    assertThat(applyInfixNotation("6/2*(1+2)"), is(equalTo(9.0)));
+    assertEquals(applyInfixNotation("6/2*(1+2)"), 9.0);
   }
 
   @Test
   public void applyInfixNotationTest2() {
-    assertThat(applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"), is(equalTo(27.0)));
+    assertEquals(applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"), 27.0);
   }
 }

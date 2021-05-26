@@ -1,6 +1,6 @@
 package com.sample.java8.interfaces;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *
