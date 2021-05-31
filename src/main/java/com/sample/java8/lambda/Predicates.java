@@ -4,7 +4,8 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * Predicates are boolean-valued functions of one argument. The interface contains various default methods for composing predicates to complex logical terms (and, or, negate)
+ * Predicates are boolean-valued functions of one argument. The interface contains various default methods for
+ * composing predicates to complex logical terms (and, or, negate)
  */
 public class Predicates {
 

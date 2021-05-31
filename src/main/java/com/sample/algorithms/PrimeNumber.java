@@ -1,5 +1,7 @@
 package com.sample.algorithms;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
@@ -15,11 +17,6 @@ import java.util.stream.IntStream;
  *
  */
 public class PrimeNumber {
-
-  public static void main(String arg[]) {
-    //System.out.println(isPrimeNumberWay1(1));
-    printPrimeNumbers(1000);
-  }
 
   /**
    *
@@ -55,17 +52,17 @@ public class PrimeNumber {
     return true;
   }
 
-
   /**
    *
    * @param limit
    */
-  public static void printPrimeNumbers(int limit) {
+  public static List<Integer> getPrimeNumbers(int limit) {
+    List<Integer> listPrimeNumbers = new ArrayList<>();
     for (int i = 0; i <= limit; i++) {
       if (isPrimeNumber(i)) {
-        System.out.println(i + " ");
+        listPrimeNumbers.add(i);
       }
     }
+    return listPrimeNumbers;
   }
-
 }

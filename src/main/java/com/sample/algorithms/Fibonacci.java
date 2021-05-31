@@ -15,10 +15,6 @@ import static java.util.stream.Collectors.toList;
 @Log4j2
 public class Fibonacci {
 
-  public static void main(String arg[]) {
-    fibonacciWithLambda(21).stream().forEach(log::info);
-  }
-
   /**
    * Java 8 / Lambda approach to generate fibonacci series.
    * Fibonacci always start as classic (e.g. 0, 1, 1, 2, 3, 5)

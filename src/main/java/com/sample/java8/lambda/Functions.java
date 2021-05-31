@@ -6,7 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *Functions accept one argument and produce a result. Default methods can be used to chain multiple functions together (compose, andThen).
+ * Functions accept one argument and produce a result. Default methods can be used to chain multiple functions
+ * together (compose, andThen).
  */
 public class Functions {
 
