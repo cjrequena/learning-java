@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -228,7 +229,6 @@ class ReactorTest {
       .verify();
   }
 
-
   @Test
   void merge2() {
     final Flux<Integer> flux = Reactor.merge2();
@@ -279,6 +279,140 @@ class ReactorTest {
       .expectComplete()
       .verify();
   }
+
+  @Test
+  void retry() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux<FooDTO> flux = Reactor.retry();
+    StepVerifier
+      .create(flux)
+      .expectNext(new FooDTO(1, "Foo1"), new FooDTO(2, "Foo2"), new FooDTO(3, "Foo3"))
+      .expectNext(new FooDTO(1, "Foo1"), new FooDTO(2, "Foo2"), new FooDTO(3, "Foo3"))
+      .expectError()
+      .verify();
+  }
+
+  @Test
+  void onErrorReturn() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux<FooDTO> flux = Reactor.onErrorReturn();
+    StepVerifier
+      .create(flux)
+      .expectNext(new FooDTO(1, "Foo1"), new FooDTO(2, "Foo2"), new FooDTO(3, "Foo3"))
+      .expectNext(new FooDTO(0, "FooError"))
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void onErrorMap() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux<FooDTO> flux = Reactor.onErrorMap();
+    StepVerifier
+      .create(flux)
+      .expectNext(new FooDTO(1, "Foo1"), new FooDTO(2, "Foo2"), new FooDTO(3, "Foo3"))
+      .expectError()
+      .verify();
+  }
+
+  @Test
+  void onErrorResume() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux<FooDTO> flux = Reactor.onErrorResume();
+    StepVerifier
+      .create(flux)
+      .expectNext(new FooDTO(1, "Foo1"), new FooDTO(2, "Foo2"), new FooDTO(3, "Foo3"))
+      .expectNext(new FooDTO(0, "FooError"))
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void defaultIfEmpty() {
+    final Mono<String> mono = Reactor.defaultIfEmpty();
+    StepVerifier.create(mono)
+      .expectNext("Default Value")
+      .expectComplete()
+      .verifyThenAssertThat()
+      .tookLessThan(Duration.ofMillis(1050));
+  }
+
+  @Test
+  void takeUntil() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux<String> flux = Reactor.takeUntil();
+    StepVerifier
+      .create(flux)
+      .expectNext("John")
+      .expectNext("Monica")
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void timeout() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Flux flux = Reactor.timeout();
+    StepVerifier
+      .create(flux)
+      .expectError()
+      .verify();
+  }
+
+  @Test
+  void average() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Mono<Double> mono = Reactor.average();
+    StepVerifier
+      .create(mono)
+      .expectNext(6.0)
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void count() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Mono<Long> mono = Reactor.count();
+    StepVerifier
+      .create(mono)
+      .expectNext(Long.valueOf(9))
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void min() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Mono mono = Reactor.min();
+    StepVerifier
+      .create(mono)
+      .expectNext(Optional.of(0))
+      .expectComplete()
+      .verify();
+  }
+
+  @Test
+  void sum() {
+    //Reactor.flux().subscribe( x -> log.info(x));
+    final Mono mono = Reactor.sum();
+    StepVerifier
+      .create(mono)
+      .expectNext(54)
+      .expectComplete()
+      .verify();
+  }
+
+  //  @Test
+  //  void summarizing() {
+  //    //Reactor.flux().subscribe( x -> log.info(x));
+  //    final Mono mono = Reactor.summarizing();
+  //    StepVerifier
+  //      .create(mono)
+  //      .expectNext(new IntSummaryStatistics(9, 0, 21, 54 ))
+  //      .expectComplete()
+  //      .verify();
+  //  }
 
   @Test
   void monoDoOnNext() {

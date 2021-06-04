@@ -5,9 +5,13 @@ import lombok.extern.log4j.Log4j2;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -218,7 +222,7 @@ public class Reactor {
 
     Flux<FooDTO> flux1 = Flux.fromIterable(fooDTOList1);
     Flux<FooDTO> flux2 = Flux.fromIterable(fooDTOList2);
-    return Flux.zip(flux1, flux2, (f1, f2) -> Arrays.asList(f1, f2));
+    return Flux.zip(flux1, flux2, (BiFunction<FooDTO, FooDTO, List<FooDTO>>) Arrays::asList);
   }
 
   /*
@@ -238,6 +242,94 @@ public class Reactor {
     Flux<FooDTO> flux1 = Flux.fromIterable(fooDTOList1);
     Flux<FooDTO> flux2 = Flux.fromIterable(fooDTOList2);
     return flux1.zipWith(flux2, (f1, f2) -> Arrays.asList(f1, f2));
+  }
+
+  public static Flux<FooDTO> retry() {
+    List<FooDTO> fooDTOList1 = new ArrayList<>();
+    fooDTOList1.add(new FooDTO(1, "Foo1"));
+    fooDTOList1.add(new FooDTO(2, "Foo2"));
+    fooDTOList1.add(new FooDTO(3, "Foo3"));
+
+    Flux<FooDTO> flux1 = Flux.fromIterable(fooDTOList1);
+    return flux1
+      .concatWith(Flux.error(new RuntimeException("An Error")))
+      .retry(1)
+      .doOnNext(log::info);
+  }
+
+  public static Flux<FooDTO> onErrorReturn() {
+    List<FooDTO> fooDTOList1 = new ArrayList<>();
+    fooDTOList1.add(new FooDTO(1, "Foo1"));
+    fooDTOList1.add(new FooDTO(2, "Foo2"));
+    fooDTOList1.add(new FooDTO(3, "Foo3"));
+
+    return Flux.fromIterable(fooDTOList1)
+      .concatWith(Flux.error(new RuntimeException("An Error")))
+      .onErrorReturn(new FooDTO(0, "FooError"))
+      .doOnNext(log::info);
+  }
+
+  public static Flux<FooDTO> onErrorResume() {
+    List<FooDTO> fooDTOList1 = new ArrayList<>();
+    fooDTOList1.add(new FooDTO(1, "Foo1"));
+    fooDTOList1.add(new FooDTO(2, "Foo2"));
+    fooDTOList1.add(new FooDTO(3, "Foo3"));
+
+    return Flux.fromIterable(fooDTOList1)
+      .concatWith(Flux.error(new RuntimeException("An Error")))
+      .onErrorResume(e -> Mono.just(new FooDTO(0, "FooError")))
+      .doOnNext(log::info);
+  }
+
+  public static Flux<FooDTO> onErrorMap() {
+    List<FooDTO> fooDTOList1 = new ArrayList<>();
+    fooDTOList1.add(new FooDTO(1, "Foo1"));
+    fooDTOList1.add(new FooDTO(2, "Foo2"));
+    fooDTOList1.add(new FooDTO(3, "Foo3"));
+
+    return Flux.fromIterable(fooDTOList1)
+      .concatWith(Flux.error(new RuntimeException("An Error")))
+      .onErrorMap(e -> new InterruptedException(e.getMessage()))
+      .doOnNext(log::info);
+  }
+
+  public static Mono defaultIfEmpty() {
+    return Mono.empty().defaultIfEmpty("Default Value");
+  }
+
+  public static Flux takeUntil() {
+    return Flux.just("John", "Monica", "Mark", "Cloe", "Frank", "Casper", "Olivia", "Emily", "Cate")
+      .takeUntil(p -> p.equals("Monica"));
+  }
+
+  public static Flux timeout() {
+    return Flux.just("John", "Monica", "Mark", "Cloe", "Frank", "Casper", "Olivia", "Emily", "Cate")
+      .delayElements(Duration.ofSeconds(3))
+      .timeout(Duration.ofSeconds(2));
+  }
+
+  public static Mono average() {
+    return Flux.just(0, 1, 1, 2, 3, 5, 8, 13, 21)
+      .collect(Collectors.averagingInt(Integer::intValue));
+  }
+
+  public static Mono count() {
+    return Flux.just(0, 1, 1, 2, 3, 5, 8, 13, 21).count();
+  }
+
+  public static Mono min() {
+    Flux flux = Flux.just(0, 1, 1, 2, 3, 5, 8, 13, 21);
+    return flux.collect(Collectors.minBy(Comparator.comparing(Integer::intValue)));
+  }
+
+  public static Mono sum() {
+    Flux flux = Flux.just(0, 1, 1, 2, 3, 5, 8, 13, 21);
+    return flux.collect(Collectors.summingInt(Integer::intValue));
+  }
+
+  public static Mono summarizing() {
+    Flux flux = Flux.just(0, 1, 1, 2, 3, 5, 8, 13, 21);
+    return flux.collect(Collectors.summarizingInt(Integer::intValue));
   }
 
   public static Mono<String> monoDoOnNext() {
