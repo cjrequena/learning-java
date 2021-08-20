@@ -68,6 +68,11 @@ class ReactorTest {
   }
 
   @Test
+  void subscribe() {
+   Reactor.subscribe();
+  }
+
+  @Test
   void fluxRepeat() {
     final Flux<String> flux = Reactor.fluxRepeat();
     StepVerifier

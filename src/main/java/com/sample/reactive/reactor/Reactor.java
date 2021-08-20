@@ -37,6 +37,13 @@ public class Reactor {
     return Flux.empty();
   }
 
+  public static void subscribe() {
+    final Flux<String> flux = Flux.just("John", "Monica", "Mark", "Cloe", "Frank", "Casper", "Olivia", "Emily", "Cate");
+    final Mono<String> mono = Mono.just("John");
+    flux.subscribe(f -> log.debug(f));
+    mono.subscribe(m -> log.debug(m));
+  }
+
   public static Flux<Integer> fluxRange() {
     return Flux.range(0, 3);
   }
