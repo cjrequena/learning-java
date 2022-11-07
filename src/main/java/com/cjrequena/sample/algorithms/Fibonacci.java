@@ -65,6 +65,20 @@ public class Fibonacci {
         return memo[n];
     }
 
+    /**
+     *
+     * Using Dynamic Programming: We can avoid the repeated work done in method 2 by storing the Fibonacci numbers calculated so far. Below are the steps:
+     *
+     * 1. Create an array arr[] of size N.
+     * 2. Initialize arr[0] = 0, arr[1] = 1.
+     * 3. Iterate over [2, N] and update the array arr[] as:
+     *    arr[i] = arr[i – 2] + arr[i – 1]
+     *
+     * 4. Print the value of arr[N].
+     *
+     * Time Complexity: O(N)
+     * Auxiliary Space: O(N)
+     */
     public static int fibonacciDynamicEg2(int n) {
         Integer[] memo = new Integer[n + 2];
         memo[0] = 1;
