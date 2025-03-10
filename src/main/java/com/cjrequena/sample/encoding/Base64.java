@@ -1,4 +1,4 @@
-package com.cjrequena.sample.coding;
+package com.cjrequena.sample.encoding;
 
 public class Base64 {
 

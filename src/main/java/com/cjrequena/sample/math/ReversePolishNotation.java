@@ -23,7 +23,7 @@ import java.util.function.BiFunction;
  * In postfix, the former could be written "3 4 5 * -", which unambiguously means "3 (4 5 *) -" which reduces to "3 20 -";
  * the latter could be written "3 4 - 5 *" (or 5 3 4 - *, if keeping similar formatting), which unambiguously means "(3 4 -) 5 *".
  *
- * Taken from http://en.wikipedia.org/wiki/Reverse_Polish_notation.
+ * Taken from <a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">...</a>.
  * <p>
  *
  * @author cjrequena
@@ -61,7 +61,7 @@ public class ReversePolishNotation {
     Arrays.asList(input.split(" ")).stream().forEach(element -> {
       switch (element) {
         case "+":
-          applyOperationToOperands(operands, (n1, n2) -> n2 + n1);
+          applyOperationToOperands(operands, Double::sum);
           break;
         case "-":
           applyOperationToOperands(operands, (n1, n2) -> n2 - n1);
