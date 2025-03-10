@@ -23,42 +23,42 @@ public class ReversePolishNotationTest {
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToCalculateSingleDigitNumbers() {
-    assertEquals(applyReversePolishNotation("1 2 +"), 3.0);
+    assertEquals(3.0, applyReversePolishNotation("1 2 +"));
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToCalculateMultiDigitNumbers() {
-    assertEquals(applyReversePolishNotation("12 3 /"), 4.0);
+    assertEquals(4.0, applyReversePolishNotation("12 3 /"));
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleNegativeNumbers() {
-    assertEquals(applyReversePolishNotation("-12 3 /"), -4.0);
+    assertEquals(-4.0, applyReversePolishNotation("-12 3 /"));
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleDecimalNumbers() {
-    assertEquals(applyReversePolishNotation("-12.9 3 /"), -4.3);
+    assertEquals(-4.3, applyReversePolishNotation("-12.9 3 /"));
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations1() {
-    assertEquals(applyReversePolishNotation("1 2 + 4 * 5 + 3 -"), 14.0);
+    assertEquals(14.0, applyReversePolishNotation("1 2 + 4 * 5 + 3 -"));
   }
 
   @Test
   public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations2() {
-    assertEquals(applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"), 27.0);
+    assertEquals(27.0, applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"));
   }
 
 
   @Test
   public void applyInfixNotationTest1() {
-    assertEquals(applyInfixNotation("6/2*(1+2)"), 9.0);
+    assertEquals(9.0, applyInfixNotation("6/2*(1+2)"));
   }
 
   @Test
   public void applyInfixNotationTest2() {
-    assertEquals(applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"), 27.0);
+    assertEquals(27.0, applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"));
   }
 }

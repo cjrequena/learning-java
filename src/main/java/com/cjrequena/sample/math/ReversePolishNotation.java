@@ -47,50 +47,79 @@ public class ReversePolishNotation {
   }
 
   /**
-   * This receives an input maths equation that must be parsed to be applied the reverse polish notation.
-   * Pushes operands into a Stack and applies a lambda function over operands if the element of the equation
-   * is an operator.
-   * The input is an string of operand and operators separated by whitespace.
+   * Evaluates a mathematical expression written in Reverse Polish Notation (RPN).
+   * <p>
+   * The input should be a space-separated string of numbers and operators.
+   * Operands are pushed onto a stack, and when an operator is encountered,
+   * the corresponding operation is applied to the top two operands.
+   * </p>
    *
-   * @param input
-   * @return
+   * <p>Example usage:</p>
+   * <pre>
+   * applyReversePolishNotation("5 2 +")  // returns 7.0  (5 + 2)
+   * applyReversePolishNotation("5 2 -")  // returns 3.0  (5 - 2)
+   * applyReversePolishNotation("5 2 *")  // returns 10.0 (5 * 2)
+   * applyReversePolishNotation("5 2 /")  // returns 2.5  (5 / 2)
+   * </pre>
+   *
+   * @param input the mathematical expression in Reverse Polish Notation (RPN)
+   * @return the evaluated result as a Double
+   * @throws IllegalArgumentException if the input is invalid or contains insufficient operands
    */
   public static Double applyReversePolishNotation(String input) {
     // TODO validate the input format.
+    if (input == null || input.trim().isEmpty()) {
+      throw new IllegalArgumentException("Input cannot be null or empty.");
+    }
+
     Stack<Double> operands = new Stack<>();
-    Arrays.asList(input.split(" ")).stream().forEach(element -> {
+
+    Arrays.stream(input.split(" ")).forEach(element -> {
       switch (element) {
         case "+":
           applyOperationToOperands(operands, Double::sum);
           break;
         case "-":
-          applyOperationToOperands(operands, (n1, n2) -> n2 - n1);
+          applyOperationToOperands(operands, (operand1, operand2) -> operand1 - operand2);
           break;
         case "*":
-          applyOperationToOperands(operands, (n1, n2) -> n2 * n1);
+          applyOperationToOperands(operands, (operand1, operand2) -> operand1 * operand2);
           break;
         case "/":
-          applyOperationToOperands(operands, (n1, n2) -> n2 / n1);
+          applyOperationToOperands(operands, (operand1, operand2) -> {
+            if (operand2 == 0) throw new ArithmeticException("Division by zero is not allowed.");
+            return operand1 / operand2;
+          });
           break;
         default:
-          operands.push(Double.parseDouble(element));
+          try {
+            operands.push(Double.parseDouble(element));
+          } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid token in input: " + element);
+          }
       }
     });
     return operands.pop();
   }
 
   /**
-   * This receive a stack of operands elements and a lambda function with the operation to be applied.
+   * Applies a binary operation to the top two elements of the operand stack.
+   * The result is pushed back onto the stack.
    *
-   *
-   * @param operands
-   * @param operation
+   * @param operands  the stack containing numerical operands
+   * @param operation a lambda function representing the binary operation to apply
+   * @throws IllegalArgumentException if the stack contains fewer than two operands
    */
-  protected static void applyOperationToOperands(Stack<Double> operands, BiFunction<Double, Double, Double> operation) {
-    operands.push(operation.apply(operands.pop(), operands.pop()));
+  private static void applyOperationToOperands(Stack<Double> operands, BiFunction<Double, Double, Double> operation) {
+    if (operands.size() < 2) {
+      throw new IllegalArgumentException("Insufficient operands for the operation.");
+    }
+    double operand2 = operands.pop(); // Pop second operand first (since it's on top)
+    double operand1 = operands.pop(); // Pop first operand
+    operands.push(operation.apply(operand1, operand2)); // Apply operation and push result
   }
 
-  public static Queue<String> convertInfixNotationToReversePolishNotation(String[] infixNotation) {
+  private static Queue<String> convertInfixNotationToReversePolishNotation(String[] infixNotation) {
 
     Map<String, Integer> precedence = new HashMap<>();
     precedence.put("/", 5);
@@ -139,17 +168,22 @@ public class ReversePolishNotation {
     return queue;
   }
 
-  public static String convertInfixNotationToReversePolishNotation(String input) {
-    String regexp = "((?<=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)])|(?=[<=|>=|==|\\+|\\*|\\-|<|>|/|=(|)]))";
-    String[] infixNotation = input.replaceAll("\\s+", "").split(regexp);
-    String rpn = convertInfixNotationToReversePolishNotation(infixNotation).toString();
-    rpn = rpn.replaceAll("\\s+", "");
-    rpn = rpn.replaceAll("[\\[\\],]", " ");
-    rpn = rpn.trim();
-    return rpn;
+  private static String convertInfixNotationToReversePolishNotation(String input) {
+    // Define regex to split operators and operands while preserving necessary characters
+    String regex = "(?<=\\b|[+*/<>=()-])|(?=\\b|[+*/<>=()-])";
+
+    // Remove all whitespace and split the input expression based on regex
+    String[] infixNotation = input.replaceAll("\\s+", "").split(regex);
+
+    // Convert to Reverse Polish Notation
+    Queue<String> rpnQueue = convertInfixNotationToReversePolishNotation(infixNotation);
+
+    // Convert queue to a formatted string
+    return String.join(" ", rpnQueue).trim();
   }
 
-  protected static boolean isNumber(String input) {
+
+  private static boolean isNumber(String input) {
     try {
       Double.valueOf(input);
       return true;
