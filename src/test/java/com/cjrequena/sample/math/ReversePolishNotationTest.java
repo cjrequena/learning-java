@@ -1,11 +1,9 @@
 package com.cjrequena.sample.math;
 
-
-
 import org.junit.jupiter.api.Test;
 
 import static com.cjrequena.sample.math.ReversePolishNotation.applyInfixNotation;
-import static com.cjrequena.sample.math.ReversePolishNotation.applyReversePolishNotation;
+import static com.cjrequena.sample.math.ReversePolishNotation.applyRPN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
@@ -22,35 +20,34 @@ Taken from http://en.wikipedia.org/wiki/Reverse_Polish_notation.
 public class ReversePolishNotationTest {
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToCalculateSingleDigitNumbers() {
-    assertEquals(3.0, applyReversePolishNotation("1 2 +"));
+  public void applyRPNShouldBeAbleToCalculateSingleDigitNumbers() {
+    assertEquals(3.0, applyRPN("1 2 +"));
   }
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToCalculateMultiDigitNumbers() {
-    assertEquals(4.0, applyReversePolishNotation("12 3 /"));
+  public void applyRPNShouldBeAbleToCalculateMultiDigitNumbers() {
+    assertEquals(4.0, applyRPN("12 3 /"));
   }
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToHandleNegativeNumbers() {
-    assertEquals(-4.0, applyReversePolishNotation("-12 3 /"));
+  public void applyRPNShouldBeAbleToHandleNegativeNumbers() {
+    assertEquals(-4.0, applyRPN("-12 3 /"));
   }
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToHandleDecimalNumbers() {
-    assertEquals(-4.3, applyReversePolishNotation("-12.9 3 /"));
+  public void applyRPNShouldBeAbleToHandleDecimalNumbers() {
+    assertEquals(-4.3, applyRPN("-12.9 3 /"));
   }
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations1() {
-    assertEquals(14.0, applyReversePolishNotation("1 2 + 4 * 5 + 3 -"));
+  public void applyRPNShouldBeAbleToHandleMoreComplexNotations1() {
+    assertEquals(14.0, applyRPN("1 2 + 4 * 5 + 3 -"));
   }
 
   @Test
-  public void applyReversePolishNotationShouldBeAbleToHandleMoreComplexNotations2() {
-    assertEquals(27.0, applyReversePolishNotation("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"));
+  public void applyRPNShouldBeAbleToHandleMoreComplexNotations2() {
+    assertEquals(27.0, applyRPN("3 4 * 4 5 * + 12 3 / 20 4 / + - 2 5 * + 6 -"));
   }
-
 
   @Test
   public void applyInfixNotationTest1() {
@@ -60,5 +57,20 @@ public class ReversePolishNotationTest {
   @Test
   public void applyInfixNotationTest2() {
     assertEquals(27.0, applyInfixNotation("3 * 4 + 4 * 5 - ( 12 / 3 + 20 / 4 ) + 2 * 5 - 6"));
+  }
+
+  @Test
+  public void applyInfixNotationTest3() {
+    assertEquals(2.0, applyInfixNotation("2 * (7-4) + 3 * (1-5) + 8"));
+  }
+
+  @Test
+  public void applyInfixNotationTest4() {
+    assertEquals(66, applyInfixNotation("8 - [ 5 - 4 [ -6 + 7 ( 5 - 2 ) ] - 3 ]"));
+  }
+
+  @Test
+  public void applyInfixNotationTest5() {
+    assertEquals(-39.0, applyInfixNotation("6 - [4 - 3(4 - 2)] - [7 - 5(4 - 2(7 - 1))]"));
   }
 }
