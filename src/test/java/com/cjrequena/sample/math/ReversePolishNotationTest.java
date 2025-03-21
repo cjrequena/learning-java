@@ -73,4 +73,10 @@ public class ReversePolishNotationTest {
   public void applyInfixNotationTest5() {
     assertEquals(-39.0, applyInfixNotation("6 - [4 - 3(4 - 2)] - [7 - 5(4 - 2(7 - 1))]"));
   }
+
+  @Test
+  public void applyInfixNotationTest6() {
+    assertEquals(-14.0, applyInfixNotation("-2(-7 + 11) - 5 - [-2 + (-3 + 5) - (4 - (2 + 3))]"));
+  }
+
 }
