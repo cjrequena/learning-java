@@ -44,6 +44,30 @@ public class PrimeNumber {
       .noneMatch(i -> number % i == 0);
   }
 
+
+  /**
+   * Determines whether a given number is a prime number.
+   *
+   * A prime number is a number greater than 1 that has no divisors other than 1 and itself.
+   * This implementation optimizes performance by checking divisibility up to the square root of the number.
+   *
+   * @param number The integer to check for primality.
+   * @return {@code true} if the number is prime, {@code false} otherwise.
+   */
+  public static boolean isPrimeNumberV2(int number) {
+    if (number <= 1) return false;
+    if (number == 2) return true;
+    if (number % 2 == 0) return false;
+
+    int sqrt = (int) Math.sqrt(number);
+    for (int i = 3; i <= sqrt; i += 2) {
+      if (number % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /**
    *
    * @param limit

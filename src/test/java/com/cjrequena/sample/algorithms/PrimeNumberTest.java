@@ -17,6 +17,8 @@ class PrimeNumberTest {
     assertFalse(PrimeNumber.isPrimeNumber(4));
     assertFalse(PrimeNumber.isPrimeNumber(9));
     assertFalse(PrimeNumber.isPrimeNumber(15));
+    assertTrue(PrimeNumber.isPrimeNumber(101));
+
   }
 
   @Test
