@@ -5,10 +5,7 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Functions accept one argument and produce a result. Default methods can be used to chain multiple functions
- * together (compose, andThen).
- */
+
 public class Functions {
 
   /**
@@ -43,10 +40,6 @@ public class Functions {
 
   /**
    *
-   * @param operandA
-   * @param operandB
-   * @param operation
-   * @return
    */
   protected static Double applyOperationToOperands(Double operandA, Double operandB, BiFunction<Double, Double, Double> operation) {
     return operation.apply(operandA, operandB);

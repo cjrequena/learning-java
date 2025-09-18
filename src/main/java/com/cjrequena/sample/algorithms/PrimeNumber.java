@@ -2,7 +2,6 @@ package com.cjrequena.sample.algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
 /**
