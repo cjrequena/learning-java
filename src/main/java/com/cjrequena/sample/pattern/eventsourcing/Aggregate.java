@@ -26,15 +26,19 @@ public abstract class Aggregate {
   @JsonProperty("aggregate_id")
   protected final UUID aggregateId;
 
-  @JsonProperty("aggregate_version")
-  protected long aggregateVersion; // The current version of the aggregate after the latest event has been applied.
-
   @JsonProperty("aggregate_type")
   protected String aggregateType;
 
+  // The current version of the aggregate after the latest unconfirmed event has been applied.
+  @JsonProperty("aggregate_version")
+  protected long aggregateVersion;
+
+  // The version of the aggregate after the latest confirmed event has been applied.
+  // This is the version after replaying all the confirmed events.
+  // The version of the aggregate before any changes were applied.
   @JsonIgnore
   @Setter
-  protected long reproducedAggregateVersion; // The version of the aggregate before any changes were applied.
+  protected long reproducedAggregateVersion;
 
   @JsonIgnore
   protected List<Event> unconfirmedEventsPool;
