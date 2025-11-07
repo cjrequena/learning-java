@@ -1,18 +1,39 @@
 package com.cjrequena.sample.pattern.eventsourcing;
 
+import lombok.NonNull;
 
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-
+import java.lang.reflect.Constructor;
 import java.util.UUID;
 
-@RequiredArgsConstructor
-public class AggregateFactory {
+/**
+ * Factory for creating new instances of {@link Aggregate}.
+ */
+public final class AggregateFactory {
 
-    @SneakyThrows(ReflectiveOperationException.class)
-    @SuppressWarnings("unchecked")
-    public <T extends Aggregate> T newInstance( Class<? extends Aggregate> aggregateClass, UUID aggregateId) {
-        var constructor = aggregateClass.getDeclaredConstructor(UUID.class, Long.TYPE);
-        return (T) constructor.newInstance(aggregateId, 0);
+    private AggregateFactory() {
+        // Prevent instantiation
+    }
+
+    /**
+     * Creates a new instance of the given {@link Aggregate} class with the specified ID.
+     *
+     * @param aggregateClass the class type of the aggregate
+     * @param aggregateId    the unique identifier for the aggregate
+     * @param <T>            the type of the aggregate
+     * @return a new aggregate instance
+     * @throws IllegalArgumentException if instantiation fails or the constructor is missing
+     */
+    public static <T extends Aggregate> T newInstance(
+      @NonNull Class<T> aggregateClass,
+      @NonNull UUID aggregateId) {
+
+        try {
+            Constructor<T> constructor = aggregateClass.getDeclaredConstructor(UUID.class, long.class);
+            constructor.setAccessible(true);
+            return constructor.newInstance(aggregateId, 0L);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException(
+              "Failed to create instance of aggregate class: " + aggregateClass.getName(), e);
+        }
     }
 }

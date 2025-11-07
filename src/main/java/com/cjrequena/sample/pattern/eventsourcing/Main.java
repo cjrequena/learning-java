@@ -9,48 +9,51 @@ public class Main {
 
   public static void main(String... args) {
 
-    Command createAccountCommand = CreateAccountCommand
-      .builder()
-      .data(AccountVO
+    final Aggregate accountAggregate;
+    try {
+      Command createAccountCommand = CreateAccountCommand
         .builder()
-        .owner("Pepe")
-        .email("pepe@aggregate-account.com")
-        .balance(new BigDecimal("999"))
-        .isActive(true)
-        .build()
-      )
-      .build();
+        .data(AccountVO
+          .builder()
+          .owner("Pepe")
+          .email("pepe@aggregate-account.com")
+          .balance(new BigDecimal("999"))
+          .isActive(true)
+          .build()
+        )
+        .build();
 
-    AggregateFactory aggregateFactory = new AggregateFactory();
-    final Aggregate accountAggregate = aggregateFactory.newInstance(AccountAggregate.class, createAccountCommand.getAggregateId());
-    accountAggregate.applyCommand(createAccountCommand);
+      accountAggregate = AggregateFactory.newInstance(AccountAggregate.class, createAccountCommand.getAggregateId());
+      accountAggregate.applyCommand(createAccountCommand);
 
-    Command depositAccountCommand = DepositAccountCommand.builder()
-      .aggregateId(accountAggregate.getAggregateId())
-      .data(DepositVO
+      Command depositAccountCommand = DepositAccountCommand.builder()
+        .aggregateId(accountAggregate.getAggregateId())
+        .data(DepositVO
+          .builder()
+          .accountId(accountAggregate.getAggregateId())
+          .amount(BigDecimal.valueOf(100))
+          .build())
+        .build();
+      accountAggregate.applyCommand(depositAccountCommand);
+
+      Command withdrawAccountCommand = WithdrawAccountCommand
         .builder()
-        .accountId(accountAggregate.getAggregateId())
-        .amount(BigDecimal.valueOf(100))
-        .build())
-      .build();
-    accountAggregate.applyCommand(depositAccountCommand);
+        .aggregateId(accountAggregate.getAggregateId())
+        .data(WithdrawVO
+          .builder()
+          .accountId(accountAggregate.getAggregateId())
+          .amount(BigDecimal.valueOf(100))
+          .build())
+        .build();
+      accountAggregate.applyCommand(withdrawAccountCommand);
+      log.debug(accountAggregate);
 
-    Command withdrawAccountCommand = WithdrawAccountCommand
-      .builder()
-      .aggregateId(accountAggregate.getAggregateId())
-      .data(WithdrawVO
-        .builder()
-        .accountId(accountAggregate.getAggregateId())
-        .amount(BigDecimal.valueOf(100))
-        .build())
-      .build();
-    accountAggregate.applyCommand(withdrawAccountCommand);
-    log.debug(accountAggregate);
-
-    final Aggregate accountAggregate2 = aggregateFactory.newInstance(AccountAggregate.class, accountAggregate.aggregateId);
-    accountAggregate2.reproduceFromEvents(accountAggregate.unconfirmedEventsPool);
-    log.debug(accountAggregate2);
-
+      final Aggregate accountAggregate2 = AggregateFactory.newInstance(AccountAggregate.class, accountAggregate.aggregateId);
+      accountAggregate2.reproduceFromEvents(accountAggregate.unconfirmedEventsPool);
+      log.debug(accountAggregate2);
+    } catch (Exception ex) {
+      log.error("{}", ex.getMessage());
+    }
 
   }
 }
